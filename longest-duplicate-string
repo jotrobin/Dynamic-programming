@@ -1,0 +1,30 @@
+import re
+    def longestDupSubstring(self, S: str) -> str:
+        ans=""
+        return self.check(S,S,ans)
+        
+    
+    def check(self,s,S,ans):
+        if len(s) ==1:
+            return ""
+        
+        else:
+            tmp='(?='+s+')'
+            idx=[m.start() for m in re.finditer(tmp,S)]
+            if len(idx)>1:
+                if len(s) > len(ans):
+                    ans=s
+                    
+            else:
+                l1=self.check(s[:-1],S,ans)
+                l2=self.check(s[1:],S,ans)
+                if len(l1) > len(l2):
+                    ans = ans if len(ans)>len(l1) else l1
+                
+                if len(l1) < len(l2):
+                    ans = ans if len(ans)>len(l2) else l2
+                
+                if len(l1) == len(l2):
+                    ans = ans if len(ans)>len(l1) else l1
+        
+        return ans
